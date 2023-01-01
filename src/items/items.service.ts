@@ -6,7 +6,22 @@ import { v4 as uuid } from 'uuid';
 
 @Injectable()
 export class ItemsService {
-  private items = [];
+  private items = [
+    // {
+    //   id: 'b387bc6b-694b-4790-a6da-64bd622d9a8c',
+    //   name: 'foo',
+    //   price: 1000,
+    //   description: 'this is foo.',
+    //   status: ItemStatus.ON_SALE,
+    // },
+    // {
+    //   id: 'b387bc6b-694b-4790-a6da-64bd622d9a8d',
+    //   name: 'bar',
+    //   price: 2000,
+    //   description: 'this is bar.',
+    //   status: ItemStatus.ON_SALE,
+    // },
+  ];
 
   findAll(): Item[] {
     return this.items;
