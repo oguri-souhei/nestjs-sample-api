@@ -10,12 +10,12 @@ export class ItemsService {
 
   private items = [];
 
-  findAll() {
-    return this.items;
+  async findAll(): Promise<Item[]> {
+    return await this.itemRepository.find();
   }
 
-  findById(id: string) {
-    const item = this.items.find((item) => item.id === id);
+  async findById(id: string): Promise<Item> {
+    const item = await this.itemRepository.findOne(id);
     if (!item) {
       throw new NotFoundException();
     }
@@ -26,11 +26,11 @@ export class ItemsService {
     return await this.itemRepository.createItem(itemDto);
   }
 
-  updateStatus(id: string) {
-    const item = this.findById(id);
-    item.status = ItemStatus.SOLD_OUT;
-    return item;
-  }
+  // updateStatus(id: string) {
+  //   const item = this.findById(id);
+  //   item.status = ItemStatus.SOLD_OUT;
+  //   return item;
+  // }
 
   delete(id: string): void {
     this.items = this.items.filter((item) => item.id !== id);
