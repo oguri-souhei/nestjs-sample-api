@@ -18,4 +18,13 @@ export class ItemRepository extends Repository<Item> {
     await this.save(item);
     return item;
   }
+
+  async updateItem(item: Item): Promise<Item> {
+    await this.save(item);
+    return item;
+  }
+
+  async deleteItem(id: string): Promise<void> {
+    await this.delete(id);
+  }
 }
