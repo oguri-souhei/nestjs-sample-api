@@ -1,33 +1,20 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateItemsDto } from './dto/create-items.dto';
 import { ItemStatus } from './item-status.enum';
-import { Item } from './item.model';
-import { v4 as uuid } from 'uuid';
+import { Item } from '../entities/item.entity';
+import { ItemRepository } from './item.repository';
 
 @Injectable()
 export class ItemsService {
-  private items = [
-    {
-      id: 'b387bc6b-694b-4790-a6da-64bd622d9a8c',
-      name: 'foo',
-      price: 1000,
-      description: 'this is foo.',
-      status: ItemStatus.ON_SALE,
-    },
-    {
-      id: 'b387bc6b-694b-4790-a6da-64bd622d9a8d',
-      name: 'bar',
-      price: 2000,
-      description: 'this is bar.',
-      status: ItemStatus.ON_SALE,
-    },
-  ];
+  constructor(private readonly itemRepository: ItemRepository) {}
 
-  findAll(): Item[] {
+  private items = [];
+
+  findAll() {
     return this.items;
   }
 
-  findById(id: string): Item {
+  findById(id: string) {
     const item = this.items.find((item) => item.id === id);
     if (!item) {
       throw new NotFoundException();
@@ -35,17 +22,11 @@ export class ItemsService {
     return item;
   }
 
-  create(itemDto: CreateItemsDto) {
-    const item = {
-      id: uuid(),
-      ...itemDto,
-      status: ItemStatus.ON_SALE,
-    };
-    this.items.push(item);
-    return this.items;
+  async create(itemDto: CreateItemsDto): Promise<Item> {
+    return await this.itemRepository.createItem(itemDto);
   }
 
-  updateStatus(id: string): Item {
+  updateStatus(id: string) {
     const item = this.findById(id);
     item.status = ItemStatus.SOLD_OUT;
     return item;
