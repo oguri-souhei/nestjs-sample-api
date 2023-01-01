@@ -8,8 +8,6 @@ import { ItemStatus } from './item-status.enum';
 export class ItemsService {
   constructor(private readonly itemRepository: ItemRepository) {}
 
-  private items = [];
-
   async findAll(): Promise<Item[]> {
     return await this.itemRepository.find();
   }
