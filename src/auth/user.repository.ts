@@ -1,4 +1,4 @@
-import { User } from 'src/entities/user.entity';
+import { User } from '../entities/user.entity';
 import { EntityRepository, Repository } from 'typeorm';
 import { UserDto } from './dto/user.dto';
 import * as bcrypt from 'bcrypt';
