@@ -1,11 +1,12 @@
 import { Item } from 'src/entities/item.entity';
+import { User } from 'src/entities/user.entity';
 import { EntityRepository, Repository } from 'typeorm';
 import { CreateItemsDto } from './dto/create-items.dto';
 import { ItemStatus } from './item-status.enum';
 
 @EntityRepository(Item)
 export class ItemRepository extends Repository<Item> {
-  async createItem(itemDto: CreateItemsDto): Promise<Item> {
+  async createItem(itemDto: CreateItemsDto, user: User): Promise<Item> {
     const { name, price, description } = itemDto;
     const item = this.create({
       name,
@@ -14,6 +15,7 @@ export class ItemRepository extends Repository<Item> {
       status: ItemStatus.ON_SALE,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
+      user,
     });
     await this.save(item);
     return item;
