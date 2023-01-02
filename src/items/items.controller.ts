@@ -17,6 +17,9 @@ import { ItemsService } from './items.service';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guards';
 import { GetUser } from 'src/auth/decorator/get-user.decorator';
 import { User } from 'src/entities/user.entity';
+import { RolesGuard } from 'src/auth/guards/roles.guard';
+import { Role } from 'src/auth/decorator/role.decorator';
+import { UserStatus } from 'src/auth/user-status.enum';
 
 @Controller('items')
 @UseInterceptors(ClassSerializerInterceptor) // @Excludeを適用させるために必要
@@ -34,7 +37,8 @@ export class ItemsController {
   }
 
   @Post()
-  @UseGuards(JwtAuthGuard)
+  @Role(UserStatus.PREMINUM)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   async create(
     @Body() itemDto: CreateItemsDto,
     @GetUser() user: User,
